@@ -1,6 +1,17 @@
+/*
+ * @Description: 1、axios封装
+ * 2、请求拦截、相应拦截、错误统一处理
+ * 3、环境切换
+ * @Version: 2.0
+ * @Autor: wudalei
+ * @Date: 2020-01-07 14:51:30
+ * @LastEditors  : wudalei
+ * @LastEditTime : 2020-01-08 09:51:58
+ */
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
  */
+
 import axios from 'axios';
 import store from '../store/index';
 import { Message } from 'element-ui';

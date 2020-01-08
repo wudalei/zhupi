@@ -7,10 +7,13 @@
       </div>
       <div class="login-main-right">
         <h1>欢迎登陆</h1>
-        <el-input v-model="loginName"
-                  placeholder="用户名"></el-input>
-        <el-input v-model="passWord"
-                  placeholder="密码"></el-input>
+        <el-form :model="userFrom"
+                 ref="userFrom">
+          <el-input v-model="loginName"
+                    placeholder="用户名"></el-input>
+          <el-input v-model="passWord"
+                    placeholder="密码"></el-input>
+        </el-form>
         <el-button type="primary"
                    :class="'hvr-shutter-out-vertical'"
                    @click="login">登 陆</el-button>
@@ -25,8 +28,10 @@ export default {
   props: {},
   data () {
     return {
-      loginName: '大隐总管理',
-      passWord: '',
+      userFrom: {
+        loginName: '大隐总管理',
+        passWord: '',
+      },
     }
   },
   watch: {},
@@ -34,8 +39,8 @@ export default {
   methods: {
     login () {
       let param = {
-        loginName: this.loginName,
-        passWord: this.passWord
+        loginName: this.userFrom.loginName,
+        passWord: this.userFrom.passWord
       }
       this.$api.user.Login(param).then(res => {
         console.log("登录res", res);
