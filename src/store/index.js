@@ -1,11 +1,27 @@
+
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './user'
+import permission from './permission'
 
 Vue.use(Vuex)
 
 
 const state = {
   Authorization: sessionStorage.getItem('Authorization') ? sessionStorage.getItem('Authorization') : '',     // 存储token
+}
+
+const getters = {
+  //user
+  nickname: state => state.user.nickname,
+  userId: state => state.user.userId,
+  avatar: state => state.user.avatar,
+  role: state => state.user.role,
+  menus: state => state.user.menus,
+  permissions: state => state.user.permissions,
+  //权限
+  permission_routers: state => state.permission.routers,
+  addRouters: state => state.permission.addRouters
 }
 
 
@@ -24,5 +40,10 @@ const actions = {
 export default new Vuex.Store({
   state,
   mutations,
-  actions
+  modules: {
+    user,
+    permission
+  },
+  actions,
+  getters
 })

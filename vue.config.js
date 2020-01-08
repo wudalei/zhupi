@@ -1,3 +1,12 @@
+/*
+ * @Description: vue-cli3配置，修改请参考注解
+ * @Version: 2.0
+ * @Autor: wudalei
+ * @Date: 2020-01-04 12:35:48
+ * @LastEditors  : wudalei
+ * @LastEditTime : 2020-01-08 15:29:49
+ */
+
 const path = require('path');//引入path模块
 function resolve (dir) {
   return path.join(__dirname, dir)//path.join(__dirname)设置绝对路径
