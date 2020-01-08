@@ -1,12 +1,12 @@
+const path = require('path');//引入path模块
+function resolve (dir) {
+  return path.join(__dirname, dir)//path.join(__dirname)设置绝对路径
+}
+let publicPath = process.env.NODE_ENV === 'production' ? '/project/web' : '/'
+let dllPublishPath = '/project/web'
 module.exports = {
   // 项目部署的基础路径
-  // 我们默认假设你的应用将会部署在域名的根部，
-  // 比如 https://www.my-app.com/
-  // 如果你的应用时部署在一个子路径下，那么你需要在这里
-  // 指定子路径。比如，如果你的应用部署在
-  // https://www.foobar.com/my-app/
-  // 那么将这个值改为 `/my-app/`
-  // baseUrl: 'np',　　/*这个是我存放在github在线预览的项目*/
+  publicPath: publicPath,
 
   // 将构建好的文件输出到哪里
   outputDir: 'dist',
@@ -51,14 +51,27 @@ module.exports = {
 
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/webpack.md
-  chainWebpack: () => { },
-  configureWebpack: () => { },
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@', resolve('./src'))
+      .set('@components', resolve('./src/components'))
+      .set('@api', resolve('./src/api'))
+      .set('@style', resolve('./src/style'))
+      .set('@static', resolve('./static'))
+    //set第一个参数：设置的别名，第二个参数：设置的路径
+  },
+  configureWebpack: () => {
+    if (process.env.NODE_ENV === 'production') {
+      // 为生产环境修改配置...
+
+    }
+  },
 
   // CSS 相关选项
   css: {
     // 将组件内的 CSS 提取到一个单独的 CSS 文件 (只用在生产环境中)
     // 也可以是一个传递给 `extract-text-webpack-plugin` 的选项对象
-    extract: true,
+    //extract: true,
 
     // 是否开启 CSS source map？
     sourceMap: false,
