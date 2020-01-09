@@ -33,6 +33,7 @@
 <script>
 import validate from '../../utils/validate'
 import { setToken } from '../../utils/auth'
+import Cookies from 'js-cookie'
 export default {
   components: {},
   props: {},
@@ -54,8 +55,8 @@ export default {
     login () {
       var that = this;
       let param = {
-        loginName: this.userFrom.loginName,
-        passWord: this.userFrom.passWord
+        loginName: that.userFrom.loginName,
+        passWord: that.userFrom.passWord
       }
       that.$refs.userFrom.validate(valid => {
         if (valid) {
@@ -63,19 +64,27 @@ export default {
 
             // 将用户token保存
             let userToken = "Bearer " + res.data.msg;
-            this.$store.commit('changeLogin', {
+            that.$store.commit('changeLogin', {
               Authorization: userToken
             })
             setToken(userToken);
 
             //获取用户权限
-            this.$store.dispatch('GetInfo', that);
-            this.$message({
+            that.$store.dispatch('GetInfo', that);
+            that.$message({
               message: "登陆成功",
               type: "success"
             });
+            setTimeout(() => {
+              let routerList = JSON.parse(Cookies.get('newRouter'));
+              if (routerList[0].children) {
+                that.$router.push({ path: routerList[0].children[0].path });
+                return;
+              }
+              that.$router.push({ path: routerList[0].path })
+            }, 500)
           }).catch(err => {
-            console.log("err->", err)
+            // console.log("err->", err)
           })
         }
       }

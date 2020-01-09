@@ -8,10 +8,15 @@ Vue.use(Vuex)
 
 
 const state = {
+  app: {
+    sidebar: 0,
+  },
   Authorization: sessionStorage.getItem('Authorization') ? sessionStorage.getItem('Authorization') : '',     // 存储token
 }
 
 const getters = {
+  sidebar: state => state.app.sidebar,
+  visitedViews: state => state.app.visitedViews,
   //user
   nickname: state => state.user.nickname,
   userId: state => state.user.userId,

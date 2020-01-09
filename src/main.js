@@ -11,6 +11,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import '@style/common.scss';
 import api from '@/api/api' // 导入api接口
+import './assets/css/icon.css';
 //require('./mock'); //模拟数据
 
 Vue.use(ElementUI);
@@ -31,7 +32,7 @@ router.beforeEach((to, from, next) => {
   }
 
   //如果前往的路径是白名单内的,就可以直接前往
-  let whiteList = ['/login', '/404']
+  let whiteList = ['/login', '/404', '/403']
   if (whiteList.indexOf(to.path) !== -1) {
     next()
     return
@@ -46,10 +47,12 @@ router.beforeEach((to, from, next) => {
 
   //若缓存没有权限，再次获取权限
   if (!store.getters.role) {
-    store.dispatch('GetInfo').then(() => {
+    store.dispatch('GetInfo', Vue.prototype).then(() => {
       next({ ...to })
     })
+    return;
   }
+  next();
 })
 
 new Vue({

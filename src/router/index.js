@@ -4,14 +4,15 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:47
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-08 15:31:29
+ * @LastEditTime : 2020-01-09 16:33:15
  */
 import Vue from 'vue'
 import Router from 'vue-router'
 
 //异步路由
 const login = () => import('@/pages/login/login');
-const error = () => import('@/pages/common/404');
+const error_404 = () => import('@/pages/common/404');
+const error_403 = () => import('@/pages/common/404');
 const user = () => import('@/pages/user/user');
 const role = () => import('@/pages/role/role');
 const home = () => import('@/pages/home/home');
@@ -25,7 +26,8 @@ export const constantRouterMap = [{
   component: login,
   hidden: true
 },
-{ path: '/404', component: error, hidden: true },]
+{ path: '/404', component: error_404, hidden: true },
+{ path: '/403', component: error_403, hidden: true }]
 
 //需要权限的页面（异步路由）
 export const asyncRouterMap = [{
@@ -45,6 +47,12 @@ export const asyncRouterMap = [{
     name: '角色管理'
   }
   ]
+}, {
+  path: '/chart',
+  name: '首页',
+  component: home,
+  iconCls: 'fa fa-user',
+  menu: "首页管理",
 }]
 
 export default new Router({

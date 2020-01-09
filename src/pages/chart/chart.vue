@@ -1,6 +1,8 @@
 
 <template>
-  <div class="role-container"></div>
+  <div class="chart-container">
+
+  </div>
 </template>
 
 <script>

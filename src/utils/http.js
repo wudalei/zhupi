@@ -6,7 +6,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-07 14:51:30
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-08 09:51:58
+ * @LastEditTime : 2020-01-09 18:03:51
  */
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
@@ -15,6 +15,7 @@
 import axios from 'axios';
 import store from '../store/index';
 import { Message } from 'element-ui';
+import router from '../router/index'
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
@@ -81,9 +82,8 @@ axios.interceptors.response.use(
         // 清除本地token和清空vuex中token对象                
         // 跳转登录页面                
         case 403:
-          console.log("403了")
           Message({
-            message: '登录过期，请重新登录',
+            message: '您没有此部分权限',
             duration: 1500,
           });
           // 清除token                    
@@ -91,8 +91,9 @@ axios.interceptors.response.use(
           //store.commit('loginSuccess', null);
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
+            console.log("走了这个")
             router.replace({
-              path: '/login',
+              path: '/403',
               query: {
                 redirect: router.currentRoute.fullPath
               }
@@ -105,6 +106,14 @@ axios.interceptors.response.use(
             message: '网络请求不存在',
             duration: 1500,
           });
+          setTimeout(() => {
+            router.replace({
+              path: '/404',
+              query: {
+                redirect: router.currentRoute.fullPath
+              }
+            });
+          }, 1000);
           break;
         // 其他错误，直接抛出错误提示                
         default:

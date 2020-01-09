@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-08 11:13:32
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-08 15:10:06
+ * @LastEditTime : 2020-01-09 17:45:39
  */
 
 import { asyncRouterMap, constantRouterMap } from '../router/index'
@@ -56,7 +56,7 @@ const permission = {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers) //将固定路由和新增路由进行合并, 成为本用户最终的全部路由信息
-      Cookies.set('newRouter', state.routers);
+      Cookies.set('newRouter', routers);
     }
   },
   actions: {
@@ -68,16 +68,13 @@ const permission = {
         const menus = userPermission.menuList;
         //声明 该角色可用的路由
         let accessedRouters
-        if (role === '管理员') {
+        if (role === '大隐总管理') {
           //如果角色里包含'管理员',那么所有的路由都可以用
           //其实管理员也拥有全部菜单,这里主要是利用角色判断,节省加载时间
           accessedRouters = asyncRouterMap
         } else {
           //否则需要通过以下方法来筛选出本角色可用的路由
           accessedRouters = filterAsyncRouter(asyncRouterMap, menus)
-          if (role.indexOf("股东") != -1) {
-            console.log("accessedRouters--->", accessedRouters)
-          }
         }
         //执行设置路由的方法
         commit('SET_ROUTERS', accessedRouters)
