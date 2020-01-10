@@ -40,8 +40,8 @@ router.beforeEach((to, from, next) => {
 
   //判断是否登录
   let token = sessionStorage.getItem('Authorization');
-  if (token === 'null' || token === '') {
-    next('/login');
+  if (!token) {
+    next('/403');
     return;
   }
 

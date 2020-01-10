@@ -6,7 +6,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-07 14:51:30
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-09 18:03:51
+ * @LastEditTime : 2020-01-10 10:16:27
  */
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
@@ -66,6 +66,13 @@ axios.interceptors.response.use(
   },
   // 服务器状态码不是200的情况    
   error => {
+    if (!error.response) {
+      Message({
+        message: "请求未连接，请联系管理员",
+        duration: 1500,
+        type: 'error'
+      })
+    }
     if (error.response.status) {
       switch (error.response.status) {
         // 401: 未登录                
@@ -91,7 +98,6 @@ axios.interceptors.response.use(
           //store.commit('loginSuccess', null);
           // 跳转登录页面，并将要浏览的页面fullPath传过去，登录成功后跳转需要访问的页面
           setTimeout(() => {
-            console.log("走了这个")
             router.replace({
               path: '/403',
               query: {
@@ -103,7 +109,7 @@ axios.interceptors.response.use(
         // 404请求不存在                
         case 404:
           Message({
-            message: '网络请求不存在',
+            message: '页面不存在',
             duration: 1500,
           });
           setTimeout(() => {
