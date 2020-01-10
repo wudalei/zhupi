@@ -1,4 +1,5 @@
 
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -12,7 +13,7 @@ import Cookies from 'js-cookie';
 import '@style/common.scss';
 import api from '@/api/api' // 导入api接口
 import './assets/css/icon.css';
-//require('./mock'); //模拟数据
+//import '@/mock' //模拟数据
 
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios

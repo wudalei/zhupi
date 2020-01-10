@@ -9,6 +9,11 @@
       <i v-else
          class="el-icon-s-unfold"></i>
     </div>
+    <!--面包屑-->
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item v-for="(item,index) in routerList"
+                          :key="index">{{item.name}}</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 全屏显示 -->
@@ -45,9 +50,9 @@
             <i class="el-icon-caret-bottom"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <a href="https://github.com/lin-xin/vue-manage-system"
+            <a href="http://111.0.67.131:8848/gitlab/ysdevelop-inner/y-bbs-admin-web"
                target="_blank">
-              <el-dropdown-item>项目仓库</el-dropdown-item>
+              <el-dropdown-item>gitlab</el-dropdown-item>
             </a>
             <el-dropdown-item divided
                               command="loginout">退出登录</el-dropdown-item>
@@ -66,13 +71,21 @@ export default {
       collapse: false,
       fullscreen: false,
       name: '猪皮',
-      message: 2
+      message: 2,
+      routerList: [],
     };
   },
   computed: {
     username () {
       let username = localStorage.getItem('ms_username');
       return username ? username : this.name;
+    }
+  },
+  watch: {
+    $route (newValue, oldValue) {
+      //路由变化
+      console.log("newValue--->", newValue)
+      this.routerList = newValue.matched
     }
   },
   methods: {
@@ -125,6 +138,7 @@ export default {
     if (document.body.clientWidth < 1500) {
       this.collapseChage();
     }
+    this.routerList = this.$route.matched
   }
 };
 </script>

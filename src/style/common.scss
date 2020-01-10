@@ -41,7 +41,7 @@ a {
 .content {
   width: auto;
   height: 100%;
-  padding: 10px;
+  padding: 15px 16px 30px 16px;
   overflow-y: scroll;
   box-sizing: border-box;
 }
@@ -161,6 +161,10 @@ a {
   font-style: normal;
 }
 
+.el-submenu__icon-arrow {
+  margin-top: 2px;
+}
+
 /*VueEditor*/
 
 .ql-container {
@@ -179,4 +183,15 @@ a {
 
 .v-note-wrapper .v-note-panel {
   min-height: 500px;
+}
+
+/**zp**/
+.zp-box {
+  background-color: #fff;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
+  overflow: hidden;
+  border-radius: 3px;
 }

@@ -229,4 +229,15 @@
     border: 1px solid #409EFF;
     background-color: #409EFF;
   }
+
+  .el-breadcrumb {
+    font-size: 14px;
+    line-height: 1;
+    width: 40%;
+    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
 }

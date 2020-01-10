@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:47
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-09 16:33:15
+ * @LastEditTime : 2020-01-10 14:42:10
  */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -16,6 +16,7 @@ const error_403 = () => import('@/pages/common/404');
 const user = () => import('@/pages/user/user');
 const role = () => import('@/pages/role/role');
 const home = () => import('@/pages/home/home');
+const chart = () => import('@/pages/chart/chart');
 
 Vue.use(Router)
 
@@ -31,6 +32,18 @@ export const constantRouterMap = [{
 
 //需要权限的页面（异步路由）
 export const asyncRouterMap = [{
+  path: '/chart',
+  name: '首页页面',
+  component: home,
+  iconCls: 'fa fa-pie-chart',
+  menu: "首页管理",
+  hide: true,
+  children: [{
+    path: '/chart',
+    component: chart,
+    name: '首页',
+  }]
+}, {
   path: '/',
   name: '用户权限',
   component: home,
@@ -47,13 +60,7 @@ export const asyncRouterMap = [{
     name: '角色管理'
   }
   ]
-}, {
-  path: '/chart',
-  name: '首页',
-  component: home,
-  iconCls: 'fa fa-user',
-  menu: "首页管理",
-}]
+},]
 
 export default new Router({
   // mode: 'history', //后端支持可开

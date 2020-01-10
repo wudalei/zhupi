@@ -1,4 +1,5 @@
 
+
 <template>
   <div class="sidebar">
     <el-menu class="sidebar-el-menu"
@@ -10,7 +11,7 @@
              unique-opened
              router>
       <template v-for="(item,index) in items">
-        <template v-if="item.children">
+        <template v-if="!item.hide">
           <el-submenu :index="item.path"
                       :key="index">
             <template slot="title">

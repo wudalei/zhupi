@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-08 11:13:32
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-08 16:10:39
+ * @LastEditTime : 2020-01-10 16:23:06
  */
 
 import { getToken, removeToken, setToken } from '../utils/auth'
@@ -44,6 +44,7 @@ const user = {
         that.$api.permission.getRolesList().then(data => {
           //储存用户信息
           let userPermission = data.data;
+          console.log("用户权限-》", userPermission);
           Cookies.set('user', userPermission);
           commit('SET_USER', userPermission);
           //生成新路由
