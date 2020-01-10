@@ -61,7 +61,7 @@ export default {
       that.$refs.userFrom.validate(valid => {
         if (valid) {
           that.$api.user.login(param).then(res => {
-            console.log("res->", res)
+            console.log("token->", res)
 
             // 将用户token保存
             let userToken = "Bearer " + res.data.msg;

@@ -6,7 +6,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-07 14:51:30
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-10 16:21:12
+ * @LastEditTime : 2020-01-10 17:06:05
  */
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
@@ -19,11 +19,12 @@ import router from '../router/index'
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = 'http://localhost:8108/admin';  //线下
+  //axios.defaults.baseURL = 'http://localhost:8108/admin';  //线下
+  axios.defaults.baseURL = 'https://shop.dyqxss.com/adminapi/admin'//线上，大隐后台（测试权限）
 } else if (process.env.NODE_ENV == 'debug') {
   axios.defaults.baseURL = '';
 } else if (process.env.NODE_ENV == 'production') {
-  axios.defaults.baseURL = 'https://shop.dyqxss.com/adminapi/admin'; //线上，大隐后台（测试权限）
+  axios.defaults.baseURL = 'https://shop.dyqxss.com/adminapi/admin';
 }
 
 // 请求超时时间
