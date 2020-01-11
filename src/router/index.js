@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:47
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-10 14:42:10
+ * @LastEditTime : 2020-01-10 17:49:42
  */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -17,6 +17,7 @@ const user = () => import('@/pages/user/user');
 const role = () => import('@/pages/role/role');
 const home = () => import('@/pages/home/home');
 const chart = () => import('@/pages/chart/chart');
+const member = () => import('@/pages/member/member');
 
 Vue.use(Router)
 
@@ -44,10 +45,10 @@ export const asyncRouterMap = [{
     name: '首页',
   }]
 }, {
-  path: '/',
+  path: '/user',
   name: '用户权限',
   component: home,
-  iconCls: 'fa fa-user',
+  iconCls: 'fa fa-address-book',
   menu: "用户权限",
   children: [{
     path: '/user',
@@ -59,6 +60,18 @@ export const asyncRouterMap = [{
     component: role,
     name: '角色管理'
   }
+  ]
+}, {
+  path: '/member',
+  name: '会员管理',
+  component: home,
+  iconCls: 'fa fa-user',
+  menu: "会员管理",
+  children: [{
+    path: '/member',
+    component: member,
+    name: '会员管理'
+  },
   ]
 },]
 
