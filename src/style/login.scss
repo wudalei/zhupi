@@ -8,11 +8,19 @@
   align-items: center;
   overflow: hidden;
 
+  .bgImg {
+    height: 100%;
+    width: 100%;
+  }
+
   .login-main {
     height: 350px;
     width: 920px;
     margin-bottom: 50px;
     display: flex;
+    position: absolute;
+    top: 30%;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
 
     >div {
       height: 100%;

@@ -1,5 +1,4 @@
 
-
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -14,7 +13,9 @@ import '@style/common.scss';
 import api from '@/api/api' // 导入api接口
 import './assets/css/icon.css';
 //import '@/mock' //模拟数据
+import VueParticles from 'vue-particles'
 
+Vue.use(VueParticles)  //登录背景粒子特效
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios
 Vue.prototype.$api = api;

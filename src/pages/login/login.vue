@@ -1,6 +1,23 @@
 
 <template>
   <div class="login-container">
+    <vue-particles color="#b3abf7"
+                   :particleOpacity="0.7"
+                   :particlesNumber="60"
+                   shapeType="circle"
+                   :particleSize="4"
+                   linesColor="#d5d1fb"
+                   :linesWidth="1"
+                   :lineLinked="true"
+                   :lineOpacity="0.4"
+                   :linesDistance="150"
+                   :moveSpeed="2"
+                   :hoverEffect="true"
+                   hoverMode="grab"
+                   :clickEffect="true"
+                   clickMode="push"
+                   class="bgImg">
+    </vue-particles>
     <div class="login-main">
       <div class="login-main-left">
         <img src="@static/bgImg/login.png"
