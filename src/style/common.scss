@@ -195,3 +195,72 @@ a {
   overflow: hidden;
   border-radius: 3px;
 }
+
+/**组件样式**/
+.toolbar {
+  border: 1px solid #ebeef5;
+  background-color: #fff;
+  color: #303133;
+  transition: .3s;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 20px !important;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+
+  i {
+    margin-right: 5px;
+  }
+
+  button {
+    height: 33px;
+    line-height: 33px;
+    padding: 0 20px;
+  }
+
+  .toolbar-title {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+
+  }
+
+  input {
+    height: 32px;
+    line-height: 32px;
+  }
+
+  form {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px 25px;
+    width: 100%;
+  }
+
+  .el-form--inline .el-form-item {
+    margin-left: 20px;
+  }
+}
+
+.soure {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.el-table {
+  margin-bottom: 10px;
+
+  // .el-table__fixed {
+  //   width: unset !important;
+  // }
+  td {
+    width: 160px !important;
+    min-width: 160px !important;
+  }
+}

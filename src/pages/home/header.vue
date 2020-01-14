@@ -84,7 +84,6 @@ export default {
   watch: {
     $route (newValue, oldValue) {
       //路由变化
-      console.log("newValue--->", newValue)
       this.routerList = newValue.matched
     }
   },

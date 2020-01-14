@@ -28,6 +28,18 @@
     width: 200px;
     font-size: 18px;
     line-height: 50px;
+    font-weight: bolder;
+  }
+
+  .header .logo::before {
+    content: '';
+    width: 108px;
+    height: 35px;
+    background-color: #fff;
+    position: absolute;
+    opacity: 0.3;
+    bottom: -10px;
+    mix-blend-mode: screen;
   }
 
   .header-right {

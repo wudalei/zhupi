@@ -5,6 +5,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
+import '@style/common.scss'
 import 'hover.css/css/hover.css'
 import store from './store/index'
 import axios from 'axios';
@@ -12,11 +13,13 @@ import Cookies from 'js-cookie';
 import '@style/common.scss';
 import api from '@/api/api' // 导入api接口
 import './assets/css/icon.css';
+import components from './components'
 //import '@/mock' //模拟数据
 import VueParticles from 'vue-particles'
 
-Vue.use(VueParticles)  //登录背景粒子特效
 Vue.use(ElementUI);
+Vue.use(components);//共用组件
+Vue.use(VueParticles) //粒子样式
 Vue.prototype.$axios = axios
 Vue.prototype.$api = api;
 
