@@ -2,15 +2,15 @@
   <el-dialog :title="title"
              :lock-scroll="false"
              :visible.sync="formVisible"
-             :close-on-click-modal="false"
-             width="60%"
+             :close-on-click-modal="true"
+             width="40%"
              :before-close="formClose">
     <el-form :model="dataForm"
-             :label-width="labelWidth"
              :rules="dataFormRules"
              ref="dataForm">
       <el-form-item v-for="(item, index) in formConfig"
                     :label="item.label"
+                    label-width="100px"
                     :prop="item.prop"
                     :key="index">
         <!--单选框-->

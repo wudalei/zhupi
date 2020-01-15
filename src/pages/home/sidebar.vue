@@ -51,13 +51,13 @@ export default {
   computed: {
 
   },
-  created () {
-    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-    bus.$on('collapse', msg => {
-      this.collapse = msg;
-      bus.$emit('collapse-content', msg);
-    });
-  },
+  // created () {
+  //   // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+  //   bus.$on('collapse', msg => {
+  //     this.collapse = msg;
+  //     bus.$emit('collapse-content', msg);
+  //   });
+  // },
   mounted () {
     let routerList = JSON.parse(Cookies.get('newRouter'));
     this.items = Object.assign({}, routerList);

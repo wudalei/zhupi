@@ -4,17 +4,30 @@
     <filterBar :model="filtersFile"
                :dataConfig="dataConfig"
                :config="filters"
-               :selectData="selectData"
-               @handleRefresh="handleRefresh"></filterBar>
+               @handleRefresh="handleRefresh">
+      <!--默认时间选择和文本样式，自定义样式如下拉框-->
+      <template v-slot:freeSlot="scope">
+        <el-select v-model="value"
+                   placeholder="请选择食物">
+          <el-option v-for="item in options"
+                     :key="item.value"
+                     :label="item.label"
+                     :value="item.value">
+          </el-option>
+        </el-select>
+      </template>
+    </filterBar>
 
     <!--列表数据-->
     <dataTable :dataSourch="tableContent"
                :dataConfig="dataConfig"
+               @handleAdd="handleAdd()"
                :btnList="btnList">
-      <template v-slot:btn>
+      <!--自定义操作按钮-->
+      <template v-slot:btn="scope">
         <el-button size="mini"
                    type="primary"
-                   @click="handleEdit"
+                   @click="handleEdit(scope)"
                    icon="el-icon-edit">修改</el-button>
         <el-button size="mini"
                    icon="el-icon-edit">删除</el-button>
@@ -32,7 +45,6 @@
     <dataForm title="新增"
               :dataForm="addForm"
               :dataFormRules="addFormRules"
-              labelWidth="150px"
               :formConfig="addConfig"
               :formVisible.sync="addFormVisible"
               @formSubmit="addSubmit"
@@ -42,7 +54,6 @@
     <dataForm title="编辑"
               :dataForm="editForm"
               :dataFormRules="editFormRules"
-              labelWidth="150px"
               :formConfig="editConfig"
               :formVisible.sync="editFormVisible"
               @formSubmit="editSubmit"
@@ -71,17 +82,34 @@ export default {
       addFormRules: dataConfig.addFormRules,
       addForm: dataConfig.addForm,
       addConfig: dataConfig.addFields,
-      // 下拉框数据
-      selectData: {
-        name: [{ id: '1' }],
-        roleId: []
-      }
+      // 测试下拉框数据
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value: ''
     }
   },
   watch: {
 
   },
   methods: {
+    handleAdd () {
+      console.log("12323")
+      this.addFormVisible = true;
+    },
     //获取列表数据
     getTableList (page) {
       let para = {
@@ -101,6 +129,9 @@ export default {
     },
 
     //表单添加
+    handleAdd () {
+      this.addFormVisible = true; //弹出层
+    },
     addSubmit: function (para) {
       this.$store.dispatch("tableLoading");
       register(para).then(res => {
@@ -118,6 +149,10 @@ export default {
       })
     },
     //数据编辑
+    handleEdit (val) {
+      this.editForm = val.scope; //获取id后去后台查询这条数据，此为测试示例
+      this.editFormVisible = true; //弹出层
+    },
     editSubmit: function (para) {
       editUser(para).then(res => {
         if (res.errorCode == 0) {
@@ -168,7 +203,6 @@ export default {
   },
   mounted () {
     // this.getTableList();
-    console.log("mixins", [mixin])
     //假数据
     this.tableContent = [{ "balance": 0, "createTime": "2019-10-22 15:31:52", "id": 1, "loginName": "admin", "password": "$2a$10$7Govz0/qE1KKBQndZwrRM.dG/s6e62HvPio5Z44DnWcOfPQ9IPLvm", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1, "updateTime": "2019-12-24 13:51:23", }, { "balance": 0, "createTime": "2019-10-22 15:31:52", "id": 2, "loginName": "正式股东", "password": "$2a$10$31.HLeug6R/gIFeZDXBwaeQNOeRr3cbQk8E2F8TUOgBCoKhk.JgGK", "role": { "createTime": "2019-12-13 10:49:07", "id": 12, "name": "正式股东" }, "roleId": 12, "updateTime": "2019-12-10 19:39:14" }, { "balance": 0, "createTime": "2019-12-10 19:40:27", "id": 5, "loginName": "正式股东2", "password": "$2a$10$C4aQQ8/qRDeJX99C5dRMR.rnF40AbMaj6awpyqvMo7ixus6O5pPXW", "role": { "createTime": "2019-12-13 10:49:07", "id": 12, "name": "正式股东" }, "roleId": 12 }, { "balance": 0, "createTime": "2019-12-11 11:08:24", "id": 6, "loginName": "编辑者001", "password": "$2a$10$aEUeF9zprzl2D5g.O.XeV.dcSBlpHCQmobBRT9MJ97rymuoJcIn0O", "role": { "createTime": "2019-12-11 11:07:51", "id": 6, "name": "编辑者" }, "roleId": 6 }, { "balance": 0, "createTime": "2019-12-13 10:27:25", "id": 7, "loginName": "大隐财务", "password": "$2a$10$LsTSdyPRaaDPAWWdqZoMserLSIssRrT3Nv3a7CbSqttO6G7hXpGyC", "role": { "createTime": "2019-12-13 10:27:40", "id": 7, "name": "财务" }, "roleId": 7 }, { "balance": 0, "createTime": "2019-12-13 10:36:33", "id": 8, "loginName": "大隐文化运营小娅", "password": "$2a$10$QUzUYvlckk91ZwIp2Gk39etqxG6ALMtuwSPeNuw906YoYAYYo8/Hq", "role": { "createTime": "2019-12-13 10:37:31", "id": 9, "name": "大隐文化运营" }, "roleId": 9 }, { "balance": 0, "createTime": "2019-12-13 10:41:32", "id": 9, "loginName": "大隐总管理", "password": "$2a$10$G78qmnqpg.Gl7CC1Xb25YuY03x/9Tv6XA.qt3wOITvQn3zpcIhO/e", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }, { "balance": 0, "createTime": "2019-12-24 13:48:53", "id": 14, "loginName": "大隐新零售运营部张霄健", "password": "$2a$10$DR8clHRVBCvYSf8ixkUpx.i7JPrISoE0Lvuh5oa4LsiVbpJHj0Uzm", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }, { "balance": 0, "createTime": "2019-12-24 13:49:15", "id": 15, "loginName": "大隐新零售运营部包细徳", "password": "$2a$10$NJU1Zx18FIAW4uV1ND6SY.cZWMCd8BNApBvJO6zM44sR21dOkjmt6", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }]
   }

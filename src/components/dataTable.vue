@@ -32,7 +32,9 @@
                        fixed
                        v-if="showMore">
         <template slot-scope="props">
-          <!--下拉详情-->
+          <!--详情内容-->
+          <slot name="freeSlot"
+                :scope="scope"></slot>
         </template>
       </el-table-column>
       <!--序号-->
@@ -78,18 +80,19 @@
       </el-table-column>
       <!--按钮操作-->
       <el-table-column label="操作"
-                       width="200"
+                       v-if="show"
+                       :width="width"
                        align="center"
                        fixed="right">
         <template slot-scope="scope">
-          <slot name="btn">按钮位置</slot>
+          <slot name="btn"
+                :scope="scope.row"></slot>
         </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
-
 export default {
   props: [
     "dataSourch",
@@ -99,13 +102,14 @@ export default {
   ],
   data () {
     return {
-      imagePath: "",
-      roleId: sessionStorage.getItem("roleId"),
-      dialogFormVisible: false
+      show: false,
+      width: '100'
     };
   },
   methods: {
-    handleAdd () { },
+    handleAdd () {
+      this.$emit("handleAdd");
+    },
     handleExceed () { },
     handleRemove () { },
     handleSort (column) {
@@ -129,7 +133,14 @@ export default {
       }
     },
   },
-  mounted () { }
+  mounted () {
+    if (this.$scopedSlots.btn()) {
+      this.width = (this.$scopedSlots.btn().length * 100) + ''
+      this.show = true
+    } else {
+      this.show = false //当按钮数量是0的时候，操作列不显示
+    }
+  },
 };
 </script>
 

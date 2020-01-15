@@ -96,6 +96,22 @@ var dataConfig = {
     "prop": "loginName",
     "type": "text",
   }, {
+    "label": "用户名",
+    "prop": "loginName",
+    "type": "text",
+  }, {
+    "label": "用户名",
+    "prop": "loginName",
+    "type": "text",
+  }, {
+    "label": "用户名",
+    "prop": "loginName",
+    "type": "text",
+  }, {
+    "label": "用户名",
+    "prop": "loginName",
+    "type": "text",
+  }, {
     "label": "密码",
     "prop": "password",
     "type": "password",
@@ -121,7 +137,7 @@ var dataConfig = {
     placeholder: '请输入用户名',
 
   }, {
-    type: 'select',
+    type: 'input',
     value: 'name',
     labal: '请输入用户名',
     placeholder: '请输入用户名',

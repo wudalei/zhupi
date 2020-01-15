@@ -26,6 +26,7 @@ let mixin = {
   methods: {
     //打开新增页面
     handleAdd () {
+      console.log("走了我");
       this.addFormVisible = true;
     },
     //关闭弹出层
@@ -34,7 +35,6 @@ let mixin = {
     },
     //打开编辑
     handleEdit () {
-      console.log("走了我");
       this.editFormVisible = true;
     },
     //打开详情
