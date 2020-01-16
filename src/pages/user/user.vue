@@ -41,15 +41,6 @@
                 :current.sync="current"
                 :sels="sels"></pagination>
 
-    <!--新增界面-->
-    <dataForm title="新增"
-              :dataForm="addForm"
-              :dataFormRules="addFormRules"
-              :formConfig="addConfig"
-              :formVisible.sync="addFormVisible"
-              @formSubmit="addSubmit"
-              @formClose="formClose"></dataForm>
-
     <!--编辑界面-->
     <dataForm title="编辑"
               :dataForm="editForm"
@@ -58,6 +49,17 @@
               :formVisible.sync="editFormVisible"
               @formSubmit="editSubmit"
               @formClose="formClose"></dataForm>
+
+    <!--新增界面-->
+    <dataForm title="新增"
+              :dataForm="addForm"
+              :dataFormRules="addFormRules"
+              :formConfig="addConfig"
+              :formVisible.sync="addFormVisible"
+              @formSubmit="addSubmit"
+              :selectData="selectData"
+              @formClose="formClose"></dataForm>
+
   </section>
 </template>
 <script>
@@ -99,17 +101,14 @@ export default {
         value: '选项5',
         label: '北京烤鸭'
       }],
-      value: ''
+      value: '',
+      selectData: '',
     }
   },
   watch: {
 
   },
   methods: {
-    handleAdd () {
-      console.log("12323")
-      this.addFormVisible = true;
-    },
     //获取列表数据
     getTableList (page) {
       let para = {
@@ -131,6 +130,11 @@ export default {
     //表单添加
     handleAdd () {
       this.addFormVisible = true; //弹出层
+      this.selectData = {        user: [
+          { id: 1, name: '小明' },
+          { id: 2, name: '小方' }
+        ]      }  //下拉框数据在弹出层打开之后添加
+      console.log("this.selectData->", this.selectData)
     },
     addSubmit: function (para) {
       this.$store.dispatch("tableLoading");

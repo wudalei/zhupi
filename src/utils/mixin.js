@@ -1,4 +1,5 @@
 
+
 let mixin = {
   data () {
     "use strict";

@@ -67,6 +67,7 @@ var dataConfig = {
     loginName: "",
     password: "",
     roleId: '',
+    user: '',
   },
   addFormRules: {
     loginName: [{
@@ -92,25 +93,27 @@ var dataConfig = {
     }]
   },
   addFields: [{
-    "label": "用户名",
+    "label": "单图",
     "prop": "loginName",
-    "type": "text",
+    "type": "uploadImg",
+  }, {
+    "label": "用户选择",
+    "prop": "user",
+    "type": "select",
+    "key": 'name',
+    "value": 'id',
+  }, {
+    "label": "富文本",
+    "prop": "loginName",
+    "type": "editor",
+  }, {
+    "label": "批量图片",
+    "prop": "loginName",
+    "type": "uploadImgBatch",
   }, {
     "label": "用户名",
     "prop": "loginName",
-    "type": "text",
-  }, {
-    "label": "用户名",
-    "prop": "loginName",
-    "type": "text",
-  }, {
-    "label": "用户名",
-    "prop": "loginName",
-    "type": "text",
-  }, {
-    "label": "用户名",
-    "prop": "loginName",
-    "type": "text",
+    "type": "datetime",
   }, {
     "label": "密码",
     "prop": "password",

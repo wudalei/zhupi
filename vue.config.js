@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:48
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-08 15:29:49
+ * @LastEditTime : 2020-01-16 16:57:29
  */
 
 const path = require('path');//引入path模块
@@ -66,7 +66,7 @@ module.exports = {
       .set('@components', resolve('./src/components'))
       .set('@api', resolve('./src/api'))
       .set('@style', resolve('./src/style'))
-      .set('@static', resolve('./static'))
+      .set('@static', resolve('static'))
     //set第一个参数：设置的别名，第二个参数：设置的路径
   },
   configureWebpack: () => {

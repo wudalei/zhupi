@@ -1,19 +1,24 @@
 
 import { get, post, put, del } from '@/utils/http';
 
-const user = {
+export const baseUrl = ""
+export const uploadImg = ''
+
+export const user = {
   login: params => post('/user/login', params),
   edit: params => put('/user/edit', params),
 }
 
-const permission = {
+export const permission = {
   getRolesList: params => get('/user/getUserByJwt', params)
 }
 
 //模拟数据
-const mock = {
+export const mock = {
   login: params => get('/user/loginMock', params),
   getRolesList: params => get('/user/getUserMock', params)
 }
-
-export default { user, permission, mock };
+export const upload = {
+  customizeUpload: params => get('', params),
+}
+export default { user, permission, mock, baseUrl };

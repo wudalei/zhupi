@@ -50,6 +50,10 @@ a {
   left: 65px;
 }
 
+.el-form-item__content {
+  display: flex;
+}
+
 .container {
   padding: 30px;
   background: #fff;
@@ -177,6 +181,11 @@ a {
 
 .editor-btn {
   margin-top: 20px;
+}
+
+.mce-btn-group>div:nth-of-type(1) {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /*markdown*/
