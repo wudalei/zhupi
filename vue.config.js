@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:48
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-16 16:57:29
+ * @LastEditTime : 2020-01-17 14:43:07
  */
 
 const path = require('path');//引入path模块
@@ -109,6 +109,7 @@ module.exports = {
     port: 8080,
     https: false,
     hotOnly: false,
+    public: 'http://localhost:8080/',
     // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/cli-service.md#配置代理
     proxy: null, // string | Object
     before: app => { }

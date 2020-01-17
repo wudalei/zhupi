@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  props: ['total', 'current', 'sels', 'batchReview'],
+  props: ['total', 'current'],
   methods: {
     handleSizeChange (val) {
       this.$emit("handleSizeChange", val)
@@ -24,9 +24,6 @@ export default {
     handleCurrentChange (val) {
       this.$emit("handleCurrentChange", val)
     },
-    handleBatchReview () {
-      this.$emit("handleBatchReview")
-    }
   },
   mounted () {
   }

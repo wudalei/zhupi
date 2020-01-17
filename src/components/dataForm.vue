@@ -4,7 +4,7 @@
              :lock-scroll="false"
              :visible.sync="formVisible"
              :close-on-click-modal="true"
-             width="40%"
+             width="800px"
              :before-close="formClose">
     <el-form :model="dataForm"
              :rules="dataFormRules"
@@ -16,38 +16,37 @@
                     :key="index">
 
         <!--批量上传图片-->
-        <!-- <el-upload v-if="item.type === 'uploadImgBatch'"
-                   :action="uploadData.uploadImg"
-                   :limit="5"
+        <el-upload v-if="item.type === 'uploadImgBatch'"
+                   :action="uploadUrl"
                    :data="uploadData"
-                   ref='batchUpload'
+                   :limit="5"
                    v-model="dataForm[item.prop]"
-                   :file-list="dataForm[item.prop]"
+                   :file-list="imgList"
                    :on-error="handleErr"
                    :on-remove="handleRemove"
-                   style="display: block;"
-                   :on-success='handleSuccessBatch'
+                   class="upload-file"
+                   :on-exceed="exceed"
+                   :on-success='(value)=> handleSuccessBatch(item.prop, value)'
                    multiple
                    accept=".jpg,.jpeg,.png,.gif"
                    list-type="picture-card"
-                   :class="batchClass"
                    :before-upload="beforeUpload">
           <i class="el-icon-plus"></i>
           <div slot="tip"
                class="el-upload__tip">只能上传jpg/png文件，且不超过500kb,轮播图最多只能上传5张图片</div>
-        </el-upload> -->
+        </el-upload>
 
         <!--单张上传图片-->
-        <el-upload v-if="item.type === 'uploadImg'"
-                   :action="uploadData.uploadImg"
+        <el-upload v-else-if="item.type === 'uploadImg'"
+                   :action="uploadUrl"
                    :data="uploadData"
                    ref='upload'
                    :show-file-list="false"
                    v-model="dataForm[item.prop]"
-                   list-type="picture-card"
+                   :list-type="dataForm[item.prop]"
                    :on-remove="handleRemove"
                    :on-error="handleErr"
-                   :on-success='handleSuccess'
+                   :on-success='(value)=>handleSuccess(item.prop, value)'
                    accept=".jpg,.jpeg,.png,.gif">
           <img :src="dataForm[item.prop]"
                v-if="dataForm[item.prop]"
@@ -64,7 +63,7 @@
                    :file-list="dataForm[item.prop]"
                    class="upload-demo"
                    drag
-                   :action="uploadData.uploadImg"
+                   :action="uploadUrl"
                    :limit="1"
                    :on-remove="uploadRemove"
                    :on-error="handleErr"
@@ -145,9 +144,9 @@
 </template>
 <script>
 import Editor from "@tinymce/tinymce-vue";
-import 'tinymce/themes/mobile/theme';
+//import 'tinymce/themes/mobile/theme';
 import { editor } from './config.js'
-import { upload, baseUrl, uploadImg } from '../api/api'
+import { upload } from '../api/api'
 export default {
   components: { Editor },
   props: [
@@ -163,13 +162,13 @@ export default {
     return {
       editorInit: editor,       //富文本
       fileList: [],
+      uploadUrl: upload.uploadUrl, //上传文件接口
       uploadData: {
-        uploadImg,
-        baseUrl,
-        uploadName: "file",
+        baseUrl: upload.baseUrl, //服务器基础路径
+        uploadName: "file",  //上传文件类型
       },
       uploadFile: '',
-      batchClass: "batchUpload",
+      imgList: [],
     };
   },
   methods: {
@@ -214,7 +213,6 @@ export default {
 
     //上传文件拦截
     beforeUpload (file) {
-      console.log("file.type-->", file.type)
       const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
       const idGIF = file.type === 'image/gif';
@@ -227,25 +225,22 @@ export default {
         this.$message.error('上传图片不能超过500K!');
         return false;
       }
-      // let cssIndex = this.dataForm.batchImagePath.length + 1;
-      // this.batchClass = "batchUpload" + cssIndex;
       return true;
     },
 
-    //批量上传(待修改)
-    handleSuccessBatch (response) {
-      let index = this.dataForm.batchImagePath.length;
-      let ulChild = this.$refs.batchUpload[0].$children[0];
-      let liChild = ulChild.$children[0].children[index];
-      liChild.elm.style.display = "none";
-      this.batchClass = "batchUpload";
-      this.dataForm.batchImagePath.push({ url: response.data.url });
+    //上传文件数量超出
+    exceed () {
+      this.$message.error('上传图片数量超出啦!');
+    },
+
+    //批量上传,参数i代表字段名
+    handleSuccessBatch (i, value) {
+      this.dataForm[i].push({ url: value.data.url });
     },
 
     //图片上传成功
-    handleSuccess (response, prop) {
-      this.dataForm.imagePath = response.data.url;
-      this.dataForm.coverImagePath = response.data.url;
+    handleSuccess (i, value) {
+      this.dataForm[i] = value.data.url;
     },
 
     //上传失败
@@ -276,8 +271,14 @@ export default {
     },
   },
   mounted () {
-    console.log("uploadData->", this.uploadData)
     tinymce.init({}) //初始化富文本
+    // 多图上传绑定值
+    this.formConfig.map(res => {
+      if (res.type === 'uploadImgBatch') {
+        let a = [];
+        this.imgList = a.concat(this.dataForm[res.prop]);
+      }
+    })
   }
 
 };

@@ -68,6 +68,7 @@ var dataConfig = {
     password: "",
     roleId: '',
     user: '',
+    imgList: [],
   },
   addFormRules: {
     loginName: [{
@@ -108,12 +109,12 @@ var dataConfig = {
     "type": "editor",
   }, {
     "label": "批量图片",
-    "prop": "loginName",
+    "prop": "imgList",
     "type": "uploadImgBatch",
   }, {
     "label": "用户名",
     "prop": "loginName",
-    "type": "datetime",
+    "type": "text",
   }, {
     "label": "密码",
     "prop": "password",

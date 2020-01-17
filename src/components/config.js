@@ -1,4 +1,5 @@
-import { baseUrl } from '../api/api'
+
+import { upload } from '../api/api'
 export const editor = {
   selector: '.tinymce', //容器，可使用css选择器
   object_resizing: false,
@@ -32,7 +33,7 @@ export const editor = {
         const formData = new FormData()
         formData.append('file', file)
         formData.set('uploadName', 'file')
-        formData.set('baseUrl', baseUrl)
+        formData.set('baseUrl', upload.baseUrl)
         customizeUpload(formData).then(res => {
           callback(res.data.url, { title: file.name })
         }).catch((res) => {
@@ -48,8 +49,8 @@ export const editor = {
     const formData = new FormData()
     formData.append('file', blobInfo.blob())
     formData.set('uploadName', 'file')
-    formData.set('baseUrl', baseUrl)
-    customizeUpload(formData).then(res => {
+    formData.set('baseUrl', upload.baseUrl)
+    upload.customizeUpload(formData).then(res => {
       console.log("res12321", res);
       success(res.data.url);
     }).catch(() => {

@@ -52,6 +52,7 @@ a {
 
 .el-form-item__content {
   display: flex;
+  text-align: left;
 }
 
 .container {
@@ -118,6 +119,10 @@ a {
 
 .el-time-spinner__wrapper .el-scrollbar__wrap:not(.el-scrollbar__wrap--hidden-default) {
   padding-bottom: 0;
+}
+
+.upload-file {
+  text-align: unset;
 }
 
 /*Upload*/

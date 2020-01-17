@@ -6,7 +6,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-07 14:51:30
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-10 17:06:05
+ * @LastEditTime : 2020-01-17 16:44:38
  */
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
@@ -80,6 +80,10 @@ axios.interceptors.response.use(
         // 未登录则跳转登录页面，并携带当前页面的路径                
         // 在登录成功后返回当前页面，这一步需要在登录页操作。                
         case 401:
+          Message({
+            message: '您尚未登录',
+            duration: 1500,
+          });
           router.replace({
             path: '/login',
             query: { redirect: router.currentRoute.fullPath }
