@@ -1,6 +1,7 @@
 
 <template>
   <div class="login-container">
+    <!--动态背景-->
     <vue-particles color="#b3abf7"
                    :particleOpacity="0.7"
                    :particlesNumber="60"

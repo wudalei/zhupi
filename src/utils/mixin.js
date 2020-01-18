@@ -1,3 +1,11 @@
+/*
+ * @Description:通用属性
+ * @Version: 2.0
+ * @Autor: wudalei
+ * @Date: 2020-01-13 10:37:50
+ * @LastEditors  : wudalei
+ * @LastEditTime : 2020-01-18 12:39:14
+ */
 
 
 let mixin = {

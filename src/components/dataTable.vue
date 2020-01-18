@@ -6,9 +6,12 @@
         <span>数据列表</span>
       </span>
       <span class="title-box">
-        <el-button @click="handleAdd">添加数据</el-button>
-        <el-button @click="handleExceed">导出数据</el-button>
-        <el-button type="danger"
+        <el-button v-if="add"
+                   @click="handleAdd">添加数据</el-button>
+        <el-button v-if="exceed"
+                   @click="handleExceed">导出数据</el-button>
+        <el-button v-if="batchDel"
+                   type="danger"
                    @click="handleRemove">批量删除</el-button>
       </span>
     </div>
@@ -18,7 +21,7 @@
               :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
               highlight-current-row
               v-loading="$store.state.listLoading"
-              @selection-change="selsChange"
+              @selection-change="selection"
               @sort-change="handleSort"
               border
               :header-cell-style="tableHeaderColor">
@@ -94,12 +97,20 @@
 </template>
 <script>
 export default {
-  props: [
-    "dataSourch",
-    "dataConfig",
-    "showMore",
-    "btnList",
-  ],
+  props: {
+    dataSourch: {},
+    dataConfig: {},
+    showMore: {},
+    batchDel: {
+      default: false
+    },
+    exceed: {
+      default: false
+    },
+    add: {
+      default: false
+    },
+  },
   data () {
     return {
       show: false,
@@ -107,11 +118,27 @@ export default {
     };
   },
   methods: {
+    //选中列数据导出
+    selection (val) {
+      this.$emit("selection", val);
+    },
+
+    //添加数据
     handleAdd () {
       this.$emit("handleAdd");
     },
-    handleExceed () { },
-    handleRemove () { },
+
+    //表格导出
+    handleExceed () {
+      this.$emit("handleExceed");
+    },
+
+    //批量删除
+    handleRemove () {
+      this.$emit("handleRemove");
+    },
+
+    //表格排序
     handleSort (column) {
       if (column.order === "ascending") {
         this.$emit("handleSort", column.prop);
@@ -119,9 +146,8 @@ export default {
         this.$emit("handleSort", "-" + column.prop);
       }
     },
-    selsChange (val) {
-      this.$emit("selsChange", val);
-    },
+
+    //部分表格样式
     tableHeaderColor ({
       row,
       column,
@@ -134,6 +160,7 @@ export default {
     },
   },
   mounted () {
+    //根据按钮数量调整操作栏宽度
     if (this.$scopedSlots.btn()) {
       this.width = (this.$scopedSlots.btn().length * 100) + ''
       this.show = true

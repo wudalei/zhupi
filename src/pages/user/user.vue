@@ -21,7 +21,10 @@
     <!--列表数据-->
     <dataTable :dataSourch="tableContent"
                :dataConfig="dataConfig"
-               @handleAdd="handleAdd()"
+               @selection="selection"
+               @handleAdd="handleAdd"
+               @handleRemove="handleRemove"
+               @handleExceed="handleExceed"
                :btnList="btnList">
       <!--自定义操作按钮-->
       <template v-slot:btn="scope">
@@ -65,27 +68,22 @@
 <script>
 import mixin from '../../utils/mixin'
 import dataConfig from './config'
+import { export_json_to_excel } from '../../assets/js/Export2Excel'
 export default {
   mixins: [mixin],
   data () {
     return {
-      // 按钮权限
-      btnList: [{ edit: '修改' }, { del: "删除" }, { get: '查看' }],
-      // 筛选工具条配置
-      filtersFile: dataConfig.filtersFile,
+      btnList: [{ edit: '修改' }, { del: "删除" }, { get: '查看' }],  // 按钮权限
+      filtersFile: dataConfig.filtersFile, // 筛选工具条配置
       filters: dataConfig.filters,
-      // 数据列表配置
-      dataConfig: dataConfig.fields,
-      // 编辑页面配置
-      editFormRules: dataConfig.addFormRules,
+      dataConfig: dataConfig.fields, // 数据列表配置
+      editFormRules: dataConfig.addFormRules, // 编辑页面配置
       editForm: dataConfig.addForm,
       editConfig: dataConfig.addFields,
-      // 新增页面配置
-      addFormRules: dataConfig.addFormRules,
+      addFormRules: dataConfig.addFormRules, // 新增页面配置  注：新增和编辑字段相同可用一种配置，减少冗余配置。
       addForm: dataConfig.addForm,
       addConfig: dataConfig.addFields,
-      // 测试下拉框数据
-      options: [{
+      options: [{    // 测试下拉框数据
         value: '选项1',
         label: '黄金糕'
       }, {
@@ -93,7 +91,9 @@ export default {
         label: '双皮奶'
       },],
       value: '',
-      selectData: '',
+      selectData: '',  // 表单中下拉数据
+      ids: '',  //批量操作
+      datas: ''
     }
   },
   watch: {
@@ -121,11 +121,12 @@ export default {
     //表单添加
     handleAdd () {
       this.addFormVisible = true; //弹出层
-      this.selectData = {        user: [
+      this.selectData = {
+        user: [
           { id: 1, name: '小明' },
           { id: 2, name: '小方' }
-        ]      }  //下拉框数据在弹出层打开之后添加
-      console.log("this.selectData->", this.selectData)
+        ]
+      }  //下拉框数据在弹出层打开之后添加
     },
     addSubmit: function (para) {
       this.$store.dispatch("tableLoading");
@@ -143,7 +144,8 @@ export default {
 
       })
     },
-    //数据编辑
+
+    //表单数据编辑
     handleEdit (val) {
       this.editForm = val.scope; //获取id后去后台查询这条数据，此为测试示例
       this.editFormVisible = true; //弹出层
@@ -160,6 +162,7 @@ export default {
         }
       }).catch(err => { })
     },
+
     //数据删除
     handleDel: function (index, row) {
       this.$confirm("确认删除该用户吗?", "提示", {
@@ -182,6 +185,7 @@ export default {
     handleRefresh () {
       this.getTableList();
     },
+
     //条数变化
     handleCurrentChange (val) {
       this.pagination.page = val;
@@ -195,6 +199,68 @@ export default {
         this.getTableList(1);
       }, 0);
     },
+
+    //批量操作
+    selection (val) {
+      let list = [];
+      this.datas = list.concat(val); //勾选中的数据ids，供批量操作
+      this.ids = [];
+      val.map(item => {
+        this.ids.push(item.id);
+      })
+    },
+    //批量删除
+    handleRemove () {
+      //todo 上面有批量删除的ids
+    },
+    //批量导出
+    handleExceed () {
+      //以下为示例写法
+      let para = {
+        page: 1,
+        size: 9999999,
+        orderNo: this.filtersFile.orderNo,
+        nicknameStr: this.filtersFile.nicknameStr,
+        status: this.filtersFile.status,
+        beginTime: this.filtersFile.datetime ? this.filtersFile.datetime[0] : '',
+        endTime: this.filtersFile.datetime ? this.filtersFile.datetime[1] : ''
+      };
+      getOrderList(para).then(res => {
+        console.log("res-->", res);
+        let titleMap = ["订单号", "会员名", "收货人", "手机号", "详细地址", "订单总价", "订单状态", "创建时间", "支付时间", "确认时间", "发货时间", "完成时间", "取消时间"];
+        let keyMap = ["orderNo", "memberName", "name", "mobile", "address", "orderTotal", "status", "createTime", "payTime", "confirmTime", "deliverTime",
+          "completeTime", "cancelTime"];
+        let dataArray = [];
+        res.data.records.map((data, index) => {
+          if (index > 0) {
+            dataArray.push(titleMap);
+          }
+          let valueMap = [];
+          keyMap.map(item => {
+            if (item == "orderStatus") {
+              valueMap.push(this.dealStatus(data[item]));
+              return;
+            }
+            valueMap.push(data[item]);
+          })
+          dataArray.push(valueMap);
+          let orderItemList = data.orderItemList;
+          dataArray.push(["商品名", "商品价格", "商品规格", "商品数量"]);
+          orderItemList.map(orderItem => {
+            let goodsInfo = [];
+            goodsInfo.push(orderItem.commodityName);
+            goodsInfo.push(orderItem.commodityPrice);
+            goodsInfo.push(orderItem.commoditySpecs);
+            goodsInfo.push(orderItem.commodityNum);
+            dataArray.push(goodsInfo);
+          })
+          dataArray.push([]);
+        })
+        console.log("titleMap=>", titleMap)
+        console.log("dataArray===>", dataArray)
+        export_json_to_excel(titleMap, dataArray, "订单")
+      })
+    }
   },
   mounted () {
     // this.getTableList();
