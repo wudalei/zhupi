@@ -25,6 +25,9 @@
                @handleAdd="handleAdd"
                @handleRemove="handleRemove"
                @handleExceed="handleExceed"
+               @handleSizeChange="handleSizeChange"
+               @handleCurrentChange="handleCurrentChange"
+               :total="total"
                :btnList="btnList">
       <!--自定义操作按钮-->
       <template v-slot:btn="scope">
@@ -36,13 +39,6 @@
                    icon="el-icon-edit">删除</el-button>
       </template>
     </dataTable>
-
-    <!--底部工具条-->
-    <pagination @handleSizeChange="handleSizeChange"
-                @handleCurrentChange="handleCurrentChange"
-                :total="total"
-                :current.sync="current"
-                :sels="sels"></pagination>
 
     <!--编辑界面-->
     <dataForm title="编辑"
@@ -68,7 +64,7 @@
 <script>
 import mixin from '../../utils/mixin'
 import dataConfig from './config'
-import { export_json_to_excel } from '../../assets/js/Export2Excel'
+// import { export_json_to_excel } from '../../assets/js/Export2Excel'
 export default {
   mixins: [mixin],
   data () {
@@ -109,7 +105,7 @@ export default {
       };
       this.$store.dispatch('tableLoading');
       getUserList(para).then((res) => {
-        this.total = res.data.total;
+        this.total = res.data.records.length;
         res.data.records.map(item => {
           item.roleName = item.role.name
         })
@@ -208,6 +204,7 @@ export default {
       val.map(item => {
         this.ids.push(item.id);
       })
+      console.log("123", typeof this.ids);
     },
     //批量删除
     handleRemove () {
@@ -216,56 +213,57 @@ export default {
     //批量导出
     handleExceed () {
       //以下为示例写法
-      let para = {
-        page: 1,
-        size: 9999999,
-        orderNo: this.filtersFile.orderNo,
-        nicknameStr: this.filtersFile.nicknameStr,
-        status: this.filtersFile.status,
-        beginTime: this.filtersFile.datetime ? this.filtersFile.datetime[0] : '',
-        endTime: this.filtersFile.datetime ? this.filtersFile.datetime[1] : ''
-      };
-      getOrderList(para).then(res => {
-        console.log("res-->", res);
-        let titleMap = ["订单号", "会员名", "收货人", "手机号", "详细地址", "订单总价", "订单状态", "创建时间", "支付时间", "确认时间", "发货时间", "完成时间", "取消时间"];
-        let keyMap = ["orderNo", "memberName", "name", "mobile", "address", "orderTotal", "status", "createTime", "payTime", "confirmTime", "deliverTime",
-          "completeTime", "cancelTime"];
-        let dataArray = [];
-        res.data.records.map((data, index) => {
-          if (index > 0) {
-            dataArray.push(titleMap);
-          }
-          let valueMap = [];
-          keyMap.map(item => {
-            if (item == "orderStatus") {
-              valueMap.push(this.dealStatus(data[item]));
-              return;
-            }
-            valueMap.push(data[item]);
-          })
-          dataArray.push(valueMap);
-          let orderItemList = data.orderItemList;
-          dataArray.push(["商品名", "商品价格", "商品规格", "商品数量"]);
-          orderItemList.map(orderItem => {
-            let goodsInfo = [];
-            goodsInfo.push(orderItem.commodityName);
-            goodsInfo.push(orderItem.commodityPrice);
-            goodsInfo.push(orderItem.commoditySpecs);
-            goodsInfo.push(orderItem.commodityNum);
-            dataArray.push(goodsInfo);
-          })
-          dataArray.push([]);
-        })
-        console.log("titleMap=>", titleMap)
-        console.log("dataArray===>", dataArray)
-        export_json_to_excel(titleMap, dataArray, "订单")
-      })
+      // let para = {
+      //   page: 1,
+      //   size: 9999999,
+      //   orderNo: this.filtersFile.orderNo,
+      //   nicknameStr: this.filtersFile.nicknameStr,
+      //   status: this.filtersFile.status,
+      //   beginTime: this.filtersFile.datetime ? this.filtersFile.datetime[0] : '',
+      //   endTime: this.filtersFile.datetime ? this.filtersFile.datetime[1] : ''
+      // };
+      // getOrderList(para).then(res => {
+      //   console.log("res-->", res);
+      //   let titleMap = ["订单号", "会员名", "收货人", "手机号", "详细地址", "订单总价", "订单状态", "创建时间", "支付时间", "确认时间", "发货时间", "完成时间", "取消时间"];
+      //   let keyMap = ["orderNo", "memberName", "name", "mobile", "address", "orderTotal", "status", "createTime", "payTime", "confirmTime", "deliverTime",
+      //     "completeTime", "cancelTime"];
+      //   let dataArray = [];
+      //   res.data.records.map((data, index) => {
+      //     if (index > 0) {
+      //       dataArray.push(titleMap);
+      //     }
+      //     let valueMap = [];
+      //     keyMap.map(item => {
+      //       if (item == "orderStatus") {
+      //         valueMap.push(this.dealStatus(data[item]));
+      //         return;
+      //       }
+      //       valueMap.push(data[item]);
+      //     })
+      //     dataArray.push(valueMap);
+      //     let orderItemList = data.orderItemList;
+      //     dataArray.push(["商品名", "商品价格", "商品规格", "商品数量"]);
+      //     orderItemList.map(orderItem => {
+      //       let goodsInfo = [];
+      //       goodsInfo.push(orderItem.commodityName);
+      //       goodsInfo.push(orderItem.commodityPrice);
+      //       goodsInfo.push(orderItem.commoditySpecs);
+      //       goodsInfo.push(orderItem.commodityNum);
+      //       dataArray.push(goodsInfo);
+      //     })
+      //     dataArray.push([]);
+      //   })
+      //   console.log("titleMap=>", titleMap)
+      //   console.log("dataArray===>", dataArray)
+      //   export_json_to_excel(titleMap, dataArray, "订单")
+      // })
     }
   },
   mounted () {
     // this.getTableList();
     //假数据
     this.tableContent = [{ "balance": 0, "createTime": "2019-10-22 15:31:52", "id": 1, "loginName": "admin", "password": "$2a$10$7Govz0/qE1KKBQndZwrRM.dG/s6e62HvPio5Z44DnWcOfPQ9IPLvm", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1, "updateTime": "2019-12-24 13:51:23", }, { "balance": 0, "createTime": "2019-10-22 15:31:52", "id": 2, "loginName": "正式股东", "password": "$2a$10$31.HLeug6R/gIFeZDXBwaeQNOeRr3cbQk8E2F8TUOgBCoKhk.JgGK", "role": { "createTime": "2019-12-13 10:49:07", "id": 12, "name": "正式股东" }, "roleId": 12, "updateTime": "2019-12-10 19:39:14" }, { "balance": 0, "createTime": "2019-12-10 19:40:27", "id": 5, "loginName": "正式股东2", "password": "$2a$10$C4aQQ8/qRDeJX99C5dRMR.rnF40AbMaj6awpyqvMo7ixus6O5pPXW", "role": { "createTime": "2019-12-13 10:49:07", "id": 12, "name": "正式股东" }, "roleId": 12 }, { "balance": 0, "createTime": "2019-12-11 11:08:24", "id": 6, "loginName": "编辑者001", "password": "$2a$10$aEUeF9zprzl2D5g.O.XeV.dcSBlpHCQmobBRT9MJ97rymuoJcIn0O", "role": { "createTime": "2019-12-11 11:07:51", "id": 6, "name": "编辑者" }, "roleId": 6 }, { "balance": 0, "createTime": "2019-12-13 10:27:25", "id": 7, "loginName": "大隐财务", "password": "$2a$10$LsTSdyPRaaDPAWWdqZoMserLSIssRrT3Nv3a7CbSqttO6G7hXpGyC", "role": { "createTime": "2019-12-13 10:27:40", "id": 7, "name": "财务" }, "roleId": 7 }, { "balance": 0, "createTime": "2019-12-13 10:36:33", "id": 8, "loginName": "大隐文化运营小娅", "password": "$2a$10$QUzUYvlckk91ZwIp2Gk39etqxG6ALMtuwSPeNuw906YoYAYYo8/Hq", "role": { "createTime": "2019-12-13 10:37:31", "id": 9, "name": "大隐文化运营" }, "roleId": 9 }, { "balance": 0, "createTime": "2019-12-13 10:41:32", "id": 9, "loginName": "大隐总管理", "password": "$2a$10$G78qmnqpg.Gl7CC1Xb25YuY03x/9Tv6XA.qt3wOITvQn3zpcIhO/e", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }, { "balance": 0, "createTime": "2019-12-24 13:48:53", "id": 14, "loginName": "大隐新零售运营部张霄健", "password": "$2a$10$DR8clHRVBCvYSf8ixkUpx.i7JPrISoE0Lvuh5oa4LsiVbpJHj0Uzm", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }, { "balance": 0, "createTime": "2019-12-24 13:49:15", "id": 15, "loginName": "大隐新零售运营部包细徳", "password": "$2a$10$NJU1Zx18FIAW4uV1ND6SY.cZWMCd8BNApBvJO6zM44sR21dOkjmt6", "role": { "createTime": "2019-11-26 16:16:09", "id": 1, "name": "总管理员", "updateTime": "2019-11-26 16:16:12" }, "roleId": 1 }]
+    this.total = this.tableContent.length;
   }
 }
 </script>

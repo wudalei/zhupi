@@ -93,6 +93,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-col :span="24"
+            class="">
+      <el-pagination background
+                     layout="total, sizes, prev, pager, next, jumper"
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :page-sizes="[10,20, 30, 50, 100]"
+                     :page-size="20"
+                     :total="total"
+                     :current-page="current"
+                     style="float:right;">
+      </el-pagination>
+    </el-col>
   </div>
 </template>
 <script>
@@ -110,6 +123,8 @@ export default {
     add: {
       default: false
     },
+    total: {},
+    current: {},
   },
   data () {
     return {
@@ -157,6 +172,15 @@ export default {
       if (rowIndex === 0) {
         return "height:20px";
       }
+    },
+
+    //每页条数改变时会触发
+    handleSizeChange (val) {
+      this.$emit("handleSizeChange", val)
+    },
+    //当前页数改变时会触发
+    handleCurrentChange (val) {
+      this.$emit("handleCurrentChange", val)
     },
   },
   mounted () {

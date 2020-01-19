@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-13 10:37:50
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-18 12:39:14
+ * @LastEditTime : 2020-01-19 09:40:32
  */
 
 
@@ -14,7 +14,6 @@ let mixin = {
     return {
       tableContent: [], // 获取的表格内容
       total: 0,
-      sels: [], // 列表选中列
       editFormVisible: false, // 编辑界面
       editLoading: false,
       addFormVisible: false, // 新增界面

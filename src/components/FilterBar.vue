@@ -40,18 +40,6 @@
                           end-placeholder="结束日期"
                           value-format="yyyy-MM-dd HH:mm:ss"
                           :picker-options="pickerOptions"></el-date-picker>
-          <!--下拉框(数据字段不确定复用性差，暂无解决办法)-->
-          <!-- <el-select v-if="item.type === 'select'"
-                     v-model="model[item.value]"
-                     clearable
-                     filterable
-                     :style="{width:item.selectWidth}"
-                     :placeholder="item.placeholder">
-            <el-option v-for="(option,index) in selectData[item.value]"
-                       :key="option.id?option.id:index"
-                       label="1"
-                       :value="option.id?option.id:option"></el-option> 
-          </el-select>-->
           <!--插槽-->
         </el-form-item>
         <el-form-item label="请选择">

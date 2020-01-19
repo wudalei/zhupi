@@ -17,6 +17,9 @@
 <script>
 export default {
   props: ['total', 'current'],
+  data () {
+
+  },
   methods: {
     handleSizeChange (val) {
       this.$emit("handleSizeChange", val)
