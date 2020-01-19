@@ -4,7 +4,7 @@
  * @Autor: wudalei
  * @Date: 2020-01-04 12:35:48
  * @LastEditors  : wudalei
- * @LastEditTime : 2020-01-19 11:02:30
+ * @LastEditTime : 2020-01-19 11:18:30
  -->
 #### y-bbs-admin-web
 ---
@@ -36,13 +36,13 @@ $npm run dev
 #### 详情请参照范例 src/page/user/user.vue 用户模块，配置文件参考 src/page/user/config.js
 
 ####FilterBar 头部筛选配置文件
-| 参数 | 类型 | 默认值 | 描述 |
-| :------------ |:---------------:| -----:| -----:|
-| label | String | - | 标题名 |
-| prop | String | -| 数据对象的属性名 |
-| type | String |-| 所选filter组件中的样式，目前通用有input、dateTime、select，特殊样式在插槽中写 |
-| key | String | - | 当样式为select，该字段必须有，为对象属性的名称字段 |
-| value | String | - | 当样式为select，该字段必须有，为对象属性的id字段 |
+ 参数 | 类型 | 默认值 | 描述 
+---|---|---|---
+ label | String | - | 标题名 
+ prop | String | -| 数据对象的属性名 
+ type | String |-| 所选filter组件中的样式，目前通用有input、dateTime、select，特殊样式在插槽中写 
+ key | String | - | 当样式为select，该字段必须有，为对象属性的名称字段 
+ value | String | - | 当样式为select，该字段必须有，为对象属性的id字段 
 
 ####dataTable 表格组件
 ####参数
